@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 
 #Este diccionario se usa para saber cuandos días tiene cada mes del año
 diasXMes =  {'1' : 31, '2' : 28, '3'  : 31 , '4'  : 30 , '5' : 31 , '6' : 30 , '7' : 31 , '8' : 31 , '9' : 30 , '10' : 31 , '11' : 30 , '12' : 31}
@@ -44,9 +44,9 @@ def menu():
 
     #Fecha_hoy    
     elif(opcion == '5'):
-        anho = int(datetime.now().strftime("%Y")) #Obtiene el anho de la fecha actual y lo castea a entero para futuros usos
-        mes = int(datetime.now().strftime("%m"))#Obtiene el mes de la fecha actual y lo castea a entero para futuros usos
-        dia = int(datetime.now().strftime("%d"))#Obtiene el dia de la fecha actual y lo castea a entero para futuros usos
+        anho = int(date.today().strftime("%Y")) #Obtiene el anho de la fecha actual y lo castea a entero para futuros usos
+        mes = int(date.today().strftime("%m"))#Obtiene el mes de la fecha actual y lo castea a entero para futuros usos
+        dia = int(date.today().strftime("%d"))#Obtiene el dia de la fecha actual y lo castea a entero para futuros usos
         hoy = (anho,mes,dia)                    #tupla con la fecha completa
         print("\n",hoy,"\n")
         menu()
