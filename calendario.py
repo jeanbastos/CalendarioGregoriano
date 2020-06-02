@@ -5,6 +5,7 @@ diasXMes =  {'1' : 31, '2' : 28, '3'  : 31 , '4'  : 30 , '5' : 31 , '6' : 30 , '
 def menu():
     print("1: fecha_es_tupla")
     print("2: bisiesto")
+    print("4: dias_transcurridos")
     print("7: salir")
     opcion = input('Seleccione una opción: ')
 
@@ -17,7 +18,16 @@ def menu():
         opcion = input('Ingrese el año en formato yyyy: ')
         print(bisiesto(int(opcion)))
         menu()
-    
+    elif(opcion == '4'):
+        opcion = input('Ingrese la fecha en formato yyy,mm,dd: ')
+        valores = opcion.split(',')
+        dias_transcurridos(int(valores[0]),int(valores[1]),int(valores[2]))
+        menu()
+##    elif(opcion == '6'):
+##        opcion = input('Ingrese la fecha en formato yyy,mm,dd: ')
+##        valores = opcion.split(',')
+##        edad_hoy(anho, mes, dia)
+##        menu()
     elif(opcion == '7'):
         print("Fin del programa")
     else:
@@ -48,4 +58,58 @@ def fecha_es_tupla(anho, mes, dia):
         return(False)        
     return(True)
 
+# Esta funcion determina la cantidad de días que han pasado desde el primero de enero del año ingresado.
+# Es necesario saber el año ya que puede influir el hecho de que sea bisiesto o no.
+def dias_transcurridos(anho, mes, dia):
+    if(fecha_es_tupla(anho, mes, dia)):                             ## Primero es necesario verificar que la fecha ingresada sea válida en el calendario gregoriano.
+        diasTranscurridos = dia - 1                                 ## Debido a que los días comienzan a contar a partir del 2 de enero (el 1 de enero da resultado 0), se le resta uno a la cantidad de días transcurridos.
+        if(bisiesto(anho) and mes > 2):                             ## Luego se debe revisar si el año es bisiesto y el mes ingresado es mayor a 2 para sumar un día.
+            diasTranscurridos += 1
+        mes -= 1                                                    ## Como los días del mes ingresado ya se han contado, se le resta uno a la cantidad de meses.
+        while(mes >= 1):                                            ## Finalmente, este while comenzará a sumar la cantidad de días de cada mes transcurrido.
+            diasTranscurridos += diasXMes[str(mes)]
+            mes -= 1
+        print("\n Han pasado ", diasTranscurridos, " dias.\n")
+    else:
+        print("\n Debe ingresar una fecha válida para el calendario gregoriano.\n")
+
+# Esta funcion va a retornar como resultado la cantidad de años, meses y días cumplidos al día de hoy, desde una fecha válida ingresada.
+#def edad_hoy(anho, mes, dia):
+
+
 menu()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
