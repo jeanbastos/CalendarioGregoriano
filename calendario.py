@@ -1,28 +1,59 @@
+from datetime import datetime
+
 #Este diccionario se usa para saber cuandos días tiene cada mes del año
 diasXMes =  {'1' : 31, '2' : 28, '3'  : 31 , '4'  : 30 , '5' : 31 , '6' : 30 , '7' : 31 , '8' : 31 , '9' : 30 , '10' : 31 , '11' : 30 , '12' : 31}
 
 
 def menu():
-    print("1: fecha_es_tupla")
-    print("2: bisiesto")
+    print("0: fecha_es_tupla")
+    print("1: bisiesto")
+    print("3: dia_siguiente")
     print("4: dias_transcurridos")
+    print("5: fecha_hoy")
     print("7: salir")
-    opcion = input('Seleccione una opción: ')
 
-    if(opcion == '1'):
+    opcion = input('Seleccione una opción: ')
+    
+    #Fecha_es_tupla
+    if(opcion == '0'):
         opcion = input('Ingrese la fecha en formato yyyy,mm,dd: ')
         valores = opcion.split(',')
         print(fecha_es_tupla(int(valores[0]),int(valores[1]),int(valores[2])))
         menu()
-    elif(opcion == '2'):
+    
+    #Bisiesto
+    elif(opcion == '1'):
         opcion = input('Ingrese el año en formato yyyy: ')
         print(bisiesto(int(opcion)))
         menu()
+
+    #Dia_siguente
+    elif(opcion == '3'):
+        opcion = input('Ingrese la fecha en formato yyyy,mm,dd: ')
+        valores = opcion.split(',')
+        print("\n",dia_siguiente(int(valores[0]),int(valores[1]),int(valores[2])),"\n")
+        
+        menu()
+    
+    #Dias_desde_primero_enero
     elif(opcion == '4'):
         opcion = input('Ingrese la fecha en formato yyy,mm,dd: ')
         valores = opcion.split(',')
         dias_transcurridos(int(valores[0]),int(valores[1]),int(valores[2]))
         menu()
+
+    #Fecha_hoy    
+    elif(opcion == '5'):
+        anho = int(datetime.now().strftime("%Y")) #Obtiene el anho de la fecha actual y lo castea a entero para futuros usos
+        mes = int(datetime.now().strftime("%m"))#Obtiene el mes de la fecha actual y lo castea a entero para futuros usos
+        dia = int(datetime.now().strftime("%d"))#Obtiene el dia de la fecha actual y lo castea a entero para futuros usos
+        hoy = (anho,mes,dia)                    #tupla con la fecha completa
+        print("\n",hoy,"\n")
+        menu()
+
+
+
+
 ##    elif(opcion == '6'):
 ##        opcion = input('Ingrese la fecha en formato yyy,mm,dd: ')
 ##        valores = opcion.split(',')
@@ -31,6 +62,7 @@ def menu():
     elif(opcion == '7'):
         print("Fin del programa")
     else:
+        print("\nOpcion Invalida\n")
         menu()
 
 #Recibe un año en el formato yyyy y retorna si es bisiesto o no
@@ -57,6 +89,35 @@ def fecha_es_tupla(anho, mes, dia):
     elif(dia < 1 or dia > diasXMes[str(mes)]):
         return(False)        
     return(True)
+
+#Esta funcion se encarga de agregar un dia mas a la fecha de entrada.
+def dia_siguiente(anho, mes, dia):
+    
+    #Valida si la fecha es correcta
+    if(fecha_es_tupla(anho,mes,dia)):
+
+        if(dia + 1 == 29 and bisiesto(anho) and mes == 2): #Caso especial del anno bisiesto y mes febrero
+            return(anho, mes,dia+1)
+
+        elif(dia + 1 > diasXMes[str(mes)]):
+            dia = 1
+            mes = mes + 1
+            if(mes + 1 > 12):
+                mes = 1
+                anho = anho + 1
+
+        else:
+            dia = dia + 1
+        return(anho,mes,dia)
+
+    else:
+        return("Fecha Incorrecta")
+
+
+
+
+
+
 
 # Esta funcion determina la cantidad de días que han pasado desde el primero de enero del año ingresado.
 # Es necesario saber el año ya que puede influir el hecho de que sea bisiesto o no.
