@@ -10,6 +10,7 @@ def menu():
     print("3: dia_siguiente")
     print("4: dias_transcurridos")
     print("5: fecha_hoy")
+    print("6: edad_hoy")
     print("7: salir")
 
     opcion = input('Seleccione una opción: ')
@@ -37,7 +38,7 @@ def menu():
     
     #Dias_desde_primero_enero
     elif(opcion == '4'):
-        opcion = input('Ingrese la fecha en formato yyy,mm,dd: ')
+        opcion = input('Ingrese la fecha en formato yyyy,mm,dd: ')
         valores = opcion.split(',')
         dias_transcurridos(int(valores[0]),int(valores[1]),int(valores[2]))
         menu()
@@ -50,15 +51,11 @@ def menu():
         hoy = (anho,mes,dia)                    #tupla con la fecha completa
         print("\n",hoy,"\n")
         menu()
-
-
-
-
-##    elif(opcion == '6'):
-##        opcion = input('Ingrese la fecha en formato yyy,mm,dd: ')
-##        valores = opcion.split(',')
-##        edad_hoy(anho, mes, dia)
-##        menu()
+    elif(opcion == '6'):
+        opcion = input('Ingrese la fecha en formato yyyy,mm,dd: ')
+        valores = opcion.split(',')
+        edad_hoy(int(valores[0]),int(valores[1]),int(valores[2]))
+        menu()
     elif(opcion == '7'):
         print("Fin del programa")
     else:
@@ -112,13 +109,7 @@ def dia_siguiente(anho, mes, dia):
 
     else:
         return("Fecha Incorrecta")
-
-
-
-
-
-
-
+    
 # Esta funcion determina la cantidad de días que han pasado desde el primero de enero del año ingresado.
 # Es necesario saber el año ya que puede influir el hecho de que sea bisiesto o no.
 def dias_transcurridos(anho, mes, dia):
@@ -131,46 +122,58 @@ def dias_transcurridos(anho, mes, dia):
             diasTranscurridos += diasXMes[str(mes)]
             mes -= 1
         print("\n Han pasado ", diasTranscurridos, " dias.\n")
+        return diasTranscurridos
     else:
         print("\n Debe ingresar una fecha válida para el calendario gregoriano.\n")
 
 # Esta funcion va a retornar como resultado la cantidad de años, meses y días cumplidos al día de hoy, desde una fecha válida ingresada.
-#def edad_hoy(anho, mes, dia):
-
+def edad_hoy(anho, mes, dia):
+        if(fecha_es_tupla(anho, mes, dia)):                         ## En primer lugar se debe validar la fecha ingresada, luego, en caso de serlo, se obtiene la fecha actual.
+            hoy = (int(date.today().strftime("%Y")),int(date.today().strftime("%m")),int(date.today().strftime("%d")))
+            if(mes < hoy[1]):                                       ## Para obtener el tiempo de forma acertada, se optó por validar si el mes ingresado es mayor, menor o igual al mes actual.
+                anhos = hoy[0] - anho
+                if(dia <= hoy[2]):                                  ## Luego de realizar esa validación, se debe validar si el día es mayor, menor o igual al actual.
+                    meses = hoy[1] - mes
+                    dias = hoy[2] - dia
+                    print("\n Han pasado ", anhos, " años, ", meses, " meses y ", dias, " dias desde la fecha ingresada.\n")
+                    edad =(anhos, meses, dias)
+                    return edad
+                else:
+                    meses = hoy[1] - mes - 1
+                    dias = hoy[2] + diasXMes[str(mes)] - dia
+                    print("\n Han pasado ", anhos, " años, ", meses, " meses y ", dias, " dias desde la fecha ingresada.\n")
+                    edad =(anhos, meses, dias)
+                    return edad
+            elif(mes> hoy[1]):
+                anhos = hoy[0] - anho - 1
+                if(dia <= hoy[2]):
+                    meses = 12 - (mes - hoy[1])
+                    dias = hoy[2] - dia
+                    print("\n Han pasado ", anhos, " años, ", meses, " meses y ", dias, " dias desde la fecha ingresada.\n")
+                    edad =(anhos, meses, dias)
+                    return edad
+                else:
+                    meses = 12 - (mes - hoy[1]) - 1
+                    dias = hoy[2] + diasXMes[str(mes)] - dia
+                    print("\n Han pasado ", anhos, " años, ", meses, " meses y ", dias, " dias desde la fecha ingresada.\n")
+                    edad =(anhos, meses, dias)
+                    return edad
+            else:
+                if(dia <= hoy[2]):
+                    anhos = hoy[0] - anho
+                    meses = hoy[1] - mes
+                    dias = hoy[2] - dia
+                    print("\n Han pasado ", anhos, " años, ", meses, " meses y ", dias, " dias desde la fecha ingresada.\n")
+                    edad =(anhos, meses, dias)
+                    return edad
+                else:
+                    anhos = hoy[0] - anho - 1
+                    meses = 12 - (mes - hoy[1]) - 1
+                    dias = hoy[2] + diasXMes[str(mes)] - dia
+                    print("\n Han pasado ", anhos, " años, ", meses, " meses y ", dias, " dias desde la fecha ingresada.\n")
+                    edad =(anhos, meses, dias)
+                    return edad
+        else:
+            print("\n Debe ingresar una fecha válida para el calendario gregoriano.\n")
 
 menu()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
