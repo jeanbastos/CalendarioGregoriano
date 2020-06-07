@@ -3,6 +3,8 @@ from datetime import date
 #Este diccionario se usa para saber cuandos días tiene cada mes del año
 diasXMes =  {'1' : 31, '2' : 28, '3'  : 31 , '4'  : 30 , '5' : 31 , '6' : 30 , '7' : 31 , '8' : 31 , '9' : 30 , '10' : 31 , '11' : 30 , '12' : 31}
 
+#Recibe una fecha en formato (yyyy,mm,dd)
+#Y la convierte a una tupla de 3 valores enteros
 def parseDate(fecha):
     valores = fecha[1:][:-1]
     valores = valores.split(',')
