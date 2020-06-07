@@ -92,6 +92,7 @@ def bisiesto(anho):
     elif(anho%4 == 0 and anho%100 != 0):
         return(True)
     return(False)
+    
 
 #La siguiente función comprueba que el año sea igual o superior a la entrada en vigencia del calendario gregoriano
 #Comprueba que el mes se encuentre entre 1 y 12
@@ -111,10 +112,13 @@ def fecha_es_valida(fecha):
     return(True)
 
 #Esta funcion se encarga de agregar un dia mas a la fecha de entrada.
-def dia_siguiente(anho, mes, dia):
-    
+def dia_siguiente(fecha):
+
     #Valida si la fecha es correcta
-    if(fecha_es_tupla(anho,mes,dia)):
+    if(fecha_es_tupla(fecha)):
+        anho = fecha[0]
+        mes = fecha[1]
+        dia = fecha[2]
 
         if(dia + 1 == 29 and bisiesto(anho) and mes == 2): #Caso especial del anno bisiesto y mes febrero
             return(anho, mes,dia+1)
@@ -131,7 +135,7 @@ def dia_siguiente(anho, mes, dia):
         return(anho,mes,dia)
 
     else:
-        return("Fecha Incorrecta")
+        return("\nFecha Incorrecta\n")
     
 # Esta funcion determina la cantidad de días que han pasado desde el primero de enero del año ingresado.
 # Es necesario saber el año ya que puede influir el hecho de que sea bisiesto o no.
