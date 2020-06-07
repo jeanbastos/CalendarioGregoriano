@@ -3,10 +3,15 @@ from datetime import date
 #Este diccionario se usa para saber cuandos días tiene cada mes del año
 diasXMes =  {'1' : 31, '2' : 28, '3'  : 31 , '4'  : 30 , '5' : 31 , '6' : 30 , '7' : 31 , '8' : 31 , '9' : 30 , '10' : 31 , '11' : 30 , '12' : 31}
 
+def parseDate(fecha):
+    valores = fecha[1:][:-1]
+    valores = valores.split(',')
+    return((int(valores[0]),int(valores[1]),int(valores[2])))
 
 def menu():
     print("0: fecha_es_tupla")
     print("1: bisiesto")
+    print("2: fecha_es_valida")
     print("3: dia_siguiente")
     print("4: dias_transcurridos")
     print("5: fecha_hoy")
@@ -17,30 +22,33 @@ def menu():
     
     #Fecha_es_tupla
     if(opcion == '0'):
-        opcion = input('Ingrese la fecha en formato yyyy,mm,dd: ')
-        valores = opcion.split(',')
-        print(fecha_es_tupla(int(valores[0]),int(valores[1]),int(valores[2])))
+        opcion = input('Ingrese la fecha en formato (yyyy,mm,dd): ')
+        print("\n",fecha_es_tupla(parseDate(opcion)),"\n")
         menu()
     
     #Bisiesto
     elif(opcion == '1'):
-        opcion = input('Ingrese el año en formato yyyy: ')
-        print(bisiesto(int(opcion)))
+        opcion = input('Ingrese el año en formato (yyyy): ')
+        valores = opcion[1:][:-1]
+        print("\n",bisiesto((int(valores))),"\n")
+        menu()
+
+    #Fecha_es_tupla
+    if(opcion == '2'):
+        opcion = input('Ingrese la fecha en formato (yyyy,mm,dd): ')
+        print("\n",fecha_es_valida(parseDate(opcion)),"\n")
         menu()
 
     #Dia_siguente
     elif(opcion == '3'):
-        opcion = input('Ingrese la fecha en formato yyyy,mm,dd: ')
-        valores = opcion.split(',')
-        print("\n",dia_siguiente(int(valores[0]),int(valores[1]),int(valores[2])),"\n")
-        
+        opcion = input('Ingrese la fecha en formato (yyyy,mm,dd): ')
+        print("\n",dia_siguiente(parseDate(opcion)),"\n")        
         menu()
     
     #Dias_desde_primero_enero
     elif(opcion == '4'):
-        opcion = input('Ingrese la fecha en formato yyyy,mm,dd: ')
-        valores = opcion.split(',')
-        dias_transcurridos(int(valores[0]),int(valores[1]),int(valores[2]))
+        opcion = input('Ingrese la fecha en formato (yyyy,mm,dd): ')
+        print("\n",dias_transcurridos(parseDate(opcion)),"\n")  
         menu()
 
     #Fecha_hoy    
@@ -51,6 +59,7 @@ def menu():
         hoy = (anho,mes,dia)                    #tupla con la fecha completa
         print("\n",hoy,"\n")
         menu()
+
     elif(opcion == '6'):
         opcion = input('Ingrese la fecha en formato yyyy,mm,dd: ')
         valores = opcion.split(',')
@@ -58,9 +67,20 @@ def menu():
         menu()
     elif(opcion == '7'):
         print("Fin del programa")
+        exit(0)
     else:
         print("\nOpcion Invalida\n")
         menu()
+
+def fecha_es_tupla(fecha):
+    if(fecha[0]<0):
+        return(False)
+    elif(fecha[1]<1 or fecha[1]>12):
+        return(False)
+    elif(fecha[2]<1 or fecha[2]>31):
+        return(False)
+    return(True)
+    
 
 #Recibe un año en el formato yyyy y retorna si es bisiesto o no
 #El algoritmo utiliza el módulo para comprobar si es divisible entre 400
@@ -75,15 +95,17 @@ def bisiesto(anho):
 #La siguiente función comprueba que el año sea igual o superior a la entrada en vigencia del calendario gregoriano
 #Comprueba que el mes se encuentre entre 1 y 12
 #Posteriormente con un diccionario comprueba si el día se encuentra entre la cantidad de días de cada mes
-def fecha_es_tupla(anho, mes, dia):
-    if(anho < 1582):
+def fecha_es_valida(fecha):
+    if(fecha_es_tupla(fecha) == False):
         return(False)
-    elif(mes < 1 or mes > 12):
+    if(fecha[0] < 1582):
         return(False)
-    elif(bisiesto(anho) and mes == 2):
-        if(dia < 1 or dia > diasXMes[str(mes)]+1):
+    elif(fecha[1] < 1 or fecha[1] > 12):
+        return(False)
+    elif(bisiesto(fecha[0]) and fecha[1] == 2):
+        if(fecha[2] < 1 or fecha[2] > diasXMes[str(fecha[1])]+1):
             return False
-    elif(dia < 1 or dia > diasXMes[str(mes)]):
+    elif(fecha[2] < 1 or fecha[2] > diasXMes[str(fecha[1])]):
         return(False)        
     return(True)
 
@@ -177,3 +199,4 @@ def edad_hoy(anho, mes, dia):
             print("\n Debe ingresar una fecha válida para el calendario gregoriano.\n")
 
 menu()
+#fecha_es_valida((2020,20,20))
