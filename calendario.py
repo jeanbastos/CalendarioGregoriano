@@ -3,12 +3,23 @@ from datetime import date
 #Este diccionario se usa para saber cuandos días tiene cada mes del año
 diasXMes =  {'1' : 31, '2' : 28, '3'  : 31 , '4'  : 30 , '5' : 31 , '6' : 30 , '7' : 31 , '8' : 31 , '9' : 30 , '10' : 31 , '11' : 30 , '12' : 31}
 
+#Esta función permite verificar que un valor ingresado corresponde a un integer.
+def esEntero(s):
+    try: 
+        int(s)
+        return True
+    except ValueError:
+        return False
+
 #Recibe una fecha en formato (yyyy,mm,dd)
 #Y la convierte a una tupla de 3 valores enteros
 def parseDate(fecha):
     valores = fecha[1:][:-1]
     valores = valores.split(',')
-    return((int(valores[0]),int(valores[1]),int(valores[2])))
+    if(esEntero(valores[0]) and esEntero(valores[1]) and esEntero(valores[2])):
+        return((int(valores[0]),int(valores[1]),int(valores[2])))
+    else:
+        return (False)
 
 def menu():
     print("0: fecha_es_tupla")
@@ -50,7 +61,10 @@ def menu():
     #Dias_desde_primero_enero
     elif(opcion == '4'):
         opcion = input('Ingrese la fecha en formato (yyyy,mm,dd): ')
-        print("\n",dias_transcurridos(parseDate(opcion)),"\n")  
+        if(parseDate(opcion)):
+            print(dias_transcurridos(parseDate(opcion)),"\n") 
+        else:
+            print("\nDebe ingresar una fecha válida\n") 
         menu()
 
     #Fecha_hoy    
@@ -74,6 +88,8 @@ def menu():
         menu()
 
 def fecha_es_tupla(fecha):
+    if(fecha == False):
+        return(False)
     if(fecha[0]<0):
         return(False)
     elif(fecha[1]<1 or fecha[1]>12):
