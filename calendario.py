@@ -33,6 +33,7 @@ def menu():
     print("5: fecha_hoy")
     print("6: edad_hoy")
     print("8: imprimir_3x4")
+    print("9: fecha_futura")
     print("11: salir")
 
     opcion = input('Seleccione una opción: ')
@@ -93,9 +94,17 @@ def menu():
 
         menu()
 
+    elif(opcion == '9'):
+        opcion = input('Ingrese la fecha en formato (yyyy,mm,dd): ')
+        cantidad_dias = input('Ingrese un número entero positivo: ')
+        if(esEntero(cantidad_dias)):
+            fecha_futura(parseDate(opcion), int(cantidad_dias))
+        else:
+            print("Debe ingresar un número entero positivo.")
+        menu()
 
     elif(opcion == '11'):
-        print("Fin del programa")
+        print("\nFin del programa")
         exit(0)
     else:
         print("\nOpcion Invalida\n")
@@ -315,7 +324,33 @@ def get_mes(dia,num_mes,anho):
        
     return result
 
+
+## La siguiente funcion determina una fecha a partir de una fecha y un número entero dados.
+def fecha_futura(fecha, dias):
+    if(fecha_es_valida(fecha) and dias >= 0):                               ## En primer lugar se debe validar la fecha ingresada y que el número sea entero mayor o igual a cero.
+        anho = fecha[0]
+        mes = fecha[1]
+        dia = fecha[2]
+        while(dias > 0):
+            if(bisiesto(anho) and mes == 2 and dia < 29):
+                dia += 1
+            elif(dia < diasXMes[str(mes)]):
+                dia += 1
+            elif(bisiesto(anho) and mes == 2 and dia == 29):
+                mes = 3
+                dia = 1
+            elif(dia == diasXMes[str(mes)] and mes < 12):
+                mes += 1
+                dia = 1
+            elif(dia == diasXMes[str(mes)] and mes == 12):
+                anho += 1
+                mes = 1
+                dia = 1
+            dias -= 1
+        print("\n La fecha final es ", anho, "/", mes, "/", dia, ".\n")
+        return(anho,mes,dia)
+    else:
+        print("\n Debe ingresar una fecha válida.\n")
+        return
+
 menu()
-
-
-
