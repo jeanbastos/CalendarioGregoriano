@@ -362,9 +362,9 @@ def fecha_futura(fecha, dias):
 
 ## Esta funcion va a determinar la cantidad de días naturales entre las dos fechas ingresadas.
 def dias_entre(f1, f2):
-    if(fecha_es_valida(f1) and fecha_es_valida(f2)):
+    if(fecha_es_valida(f1) and fecha_es_valida(f2)):                                ## Primero se verifica que ambas fechas sean válidas.
         cantidad_dias = 0
-        if(f1[0] < f2[0]):
+        if(f1[0] < f2[0]):                                                          ## Luego se revisa cual de las dos fechas ingresadas es menor.
             anho1 = f1[0]
             mes1 = f1[1]
             dia1 = f1[2]
@@ -378,24 +378,24 @@ def dias_entre(f1, f2):
             anho2 = f1[0]
             mes2 = f1[1]
             dia2 = f1[2]
-        while(anho1 <= anho2):
-            if(anho1 == anho2 and mes1 == mes2 and dia1 == dia2):
+        while(anho1 <= anho2):                                                      ## Mientras el año1 sea menor o igual al año2, se seguirá la suma de días.
+            if(anho1 == anho2 and mes1 == mes2 and dia1 == dia2):                   ## Una vez ambos años, meses y días sean iguales, se cierra el while.
                 break
-            elif(bisiesto(anho1) and mes1 == 2 and dia1 < 29):                   ## Se debe revisar si el año actual es bisiesto, para asegurarnos de que llegue a 29 días.
+            elif(bisiesto(anho1) and mes1 == 2 and dia1 < 29):                      ## Se debe revisar si el año actual es bisiesto, para asegurarnos de que llegue a 29 días.
                 dia1 += 1
                 cantidad_dias += 1
-            elif(dia1 < diasXMes[str(mes1)]):                                 ## Si el día actual no es el último del mes, se suma uno al dia.
+            elif(dia1 < diasXMes[str(mes1)]):                                       ## Si el día actual no es el último del mes, se suma uno al dia.
                 dia1 += 1
                 cantidad_dias += 1
-            elif(bisiesto(anho1) and mes1 == 2 and dia1 == 29):                ## Se debe revisar si el año actual es bisiesto, para realizar la suma correspondiente en el mes de febrero.
+            elif(bisiesto(anho1) and mes1 == 2 and dia1 == 29):                     ## Se debe revisar si el año actual es bisiesto, para realizar la suma correspondiente en el mes de febrero.
                 mes1 = 3
                 dia1 = 1
                 cantidad_dias += 1
-            elif(dia1 == diasXMes[str(mes1)] and mes1 < 12):                   ## Si el día es el último del mes y no es Diciembre, se suma uno al mes y se devuelve la cantidad de días a 1.
+            elif(dia1 == diasXMes[str(mes1)] and mes1 < 12):                        ## Si el día es el último del mes y no es Diciembre, se suma uno al mes y se devuelve la cantidad de días a 1.
                 mes1 += 1
                 dia1 = 1
                 cantidad_dias += 1
-            elif(dia1 == diasXMes[str(mes1)] and mes1 == 12):                  ## Si el día es el último del mes y es Diciembre, se devuelve el mes y día a 1 y se aumenta el año en 1.
+            elif(dia1 == diasXMes[str(mes1)] and mes1 == 12):                       ## Si el día es el último del mes y es Diciembre, se devuelve el mes y día a 1 y se aumenta el año en 1.
                 anho1 += 1
                 mes1 = 1
                 dia1 = 1
