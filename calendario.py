@@ -2,6 +2,9 @@ from datetime import date
 
 #Este diccionario se usa para saber cuandos días tiene cada mes del año
 diasXMes =  {'1' : 31, '2' : 28, '3'  : 31 , '4'  : 30 , '5' : 31 , '6' : 30 , '7' : 31 , '8' : 31 , '9' : 30 , '10' : 31 , '11' : 30 , '12' : 31}
+#Este diccionario tiene el nombre asociado a un numero de mes
+nombre_Mes = {1:'Enero', 2:'Febrero', 3:'Marzo', 4:'Abril', 5:'Mayo',6:'Junio',7:'Julio',8:'Agosto',9:'Setiembre',10:'Octubre',11:'Noviembre',12:'Diciembre'}
+
 
 #Esta función permite verificar que un valor ingresado corresponde a un integer.
 def esEntero(s):
@@ -29,7 +32,8 @@ def menu():
     print("4: dias_transcurridos")
     print("5: fecha_hoy")
     print("6: edad_hoy")
-    print("7: salir")
+    print("8: imprimir_3x4")
+    print("11: salir")
 
     opcion = input('Seleccione una opción: ')
     
@@ -80,7 +84,17 @@ def menu():
         opcion = input('Ingrese la fecha en formato (yyyy,mm,dd): ')
         edad_hoy(parseDate(opcion))
         menu()
-    elif(opcion == '7'):
+
+    elif(opcion == '8'):
+
+        opcion = input('Ingrese el año en formato (yyyy): ')
+        valores = opcion[1:][:-1]
+        imprimir_3x4(int(valores))
+
+        menu()
+
+
+    elif(opcion == '11'):
         print("Fin del programa")
         exit(0)
     else:
@@ -226,5 +240,82 @@ def edad_hoy(fecha):
     else:
         print("\n Debe ingresar una fecha válida para el calendario gregoriano.\n")
 
+
+def dia_semana(fecha):
+
+    return 3
+
+
+#Imprime el anno completo
+def imprimir_3x4(anho):
+
+    if(anho < 1582):
+        print("\nAño incorrecto\n")
+    else:
+        print("\nCalendario del año %s D.C." % anho)
+        fila(1,5,anho)
+        fila(5,9,anho)
+        fila(9,13,anho)
+
+    return    
+
+
+# Imprime las filas del calendario
+def fila(i,f,anho):
+    calendario =""
+    for x in range (0,8):  #Filas del mes
+        for j in range (i,f): #Columnas del calendario
+            dia = dia_semana((anho,j,1))
+            calendario += get_mes(dia, j, anho)[x] + "\t"
+        calendario += "\n"
+    print (calendario)
+    return
+
+# Esta funcion retorna el calendario de una fecha dada
+def get_mes(dia,num_mes,anho):
+
+    mes = ""
+    contador = 1
+    dia_inicio = dia #Es el dia en el que inicia el mes
+    dia2 = 1
+    mes += nombre_Mes[num_mes].center(28," ") + "|#"
+    mes += ( ' D   L   K   M   J   V   S  |#')
+    dia_mes = diasXMes[str(num_mes)]
+    if(bisiesto(anho) and num_mes == 2):
+        dia_mes = 29
+
+    for dia in range(1,dia_mes+1+dia_inicio):
+        
+        if(dia2 > 7):
+            mes += "|#"
+            dia2 = 1
+        dia2 += 1
+
+        if(dia > dia_inicio):
+            if(contador < 10):
+                mes += " "+str(contador) + "  "
+            else:
+                mes += str(contador) + "  "
+            contador += 1
+        else:
+            mes += '  ' + "  "
+    result = mes.split('#')
+
+    if (len(result) < 8):
+        result.append('                            |')
+
+    for j in range (0,8):
+        
+        for x in range (0,28):
+            if (len(result[j]) < 28):
+                result[j] += " "
+
+        if '|' not in result[j]:
+            result[j] += '|'
+       
+    return result
+
 menu()
-#fecha_es_valida((2020,20,20))
+
+
+
