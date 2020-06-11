@@ -34,6 +34,7 @@ def menu():
     print("6: edad_hoy")
     print("8: imprimir_3x4")
     print("9: fecha_futura")
+    print("10: dias_entre")
     print("11: salir")
 
     opcion = input('Seleccione una opción: ')
@@ -102,6 +103,12 @@ def menu():
         else:
             print("Debe ingresar un número entero positivo.")
         menu()
+
+    elif(opcion == '10'):
+         f1 = input('Ingrese la primera fecha en formato (yyyy,mm,dd): ')
+         f2 = input('Ingrese la segunda fecha en formato (yyyy,mm,dd): ')
+         dias_entre(parseDate(f1), parseDate(f2))
+         menu()
 
     elif(opcion == '11'):
         print("\nFin del programa")
@@ -331,18 +338,18 @@ def fecha_futura(fecha, dias):
         anho = fecha[0]
         mes = fecha[1]
         dia = fecha[2]
-        while(dias > 0):
-            if(bisiesto(anho) and mes == 2 and dia < 29):
+        while(dias > 0):                                                    ## Se inicia un ciclo para realizar la suma de los días.
+            if(bisiesto(anho) and mes == 2 and dia < 29):                   ## Se debe revisar si el año actual es bisiesto, para asegurarnos de que llegue a 29 días.
                 dia += 1
-            elif(dia < diasXMes[str(mes)]):
+            elif(dia < diasXMes[str(mes)]):                                 ## Si el día actual no es el último del mes, se suma uno al dia.
                 dia += 1
-            elif(bisiesto(anho) and mes == 2 and dia == 29):
+            elif(bisiesto(anho) and mes == 2 and dia == 29):                ## Se debe revisar si el año actual es bisiesto, para realizar la suma correspondiente en el mes de febrero.
                 mes = 3
                 dia = 1
-            elif(dia == diasXMes[str(mes)] and mes < 12):
+            elif(dia == diasXMes[str(mes)] and mes < 12):                   ## Si el día es el último del mes y no es Diciembre, se suma uno al mes y se devuelve la cantidad de días a 1.
                 mes += 1
                 dia = 1
-            elif(dia == diasXMes[str(mes)] and mes == 12):
+            elif(dia == diasXMes[str(mes)] and mes == 12):                  ## Si el día es el último del mes y es Diciembre, se devuelve el mes y día a 1 y se aumenta el año en 1.
                 anho += 1
                 mes = 1
                 dia = 1
@@ -353,4 +360,82 @@ def fecha_futura(fecha, dias):
         print("\n Debe ingresar una fecha válida.\n")
         return
 
+## Esta funcion va a determinar la cantidad de días naturales entre las dos fechas ingresadas.
+def dias_entre(f1, f2):
+    if(fecha_es_valida(f1) and fecha_es_valida(f2)):
+        cantidad_dias = 0
+        if(f1[0] < f2[0]):
+            anho1 = f1[0]
+            mes1 = f1[1]
+            dia1 = f1[2]
+            anho2 = f2[0]
+            mes2 = f2[1]
+            dia2 = f2[2]
+        else:
+            anho1 = f2[0]
+            mes1 = f2[1]
+            dia1 = f2[2]
+            anho2 = f1[0]
+            mes2 = f1[1]
+            dia2 = f1[2]
+        while(anho1 <= anho2):
+            if(anho1 == anho2 and mes1 == mes2 and dia1 == dia2):
+                break
+            elif(bisiesto(anho1) and mes1 == 2 and dia1 < 29):                   ## Se debe revisar si el año actual es bisiesto, para asegurarnos de que llegue a 29 días.
+                dia1 += 1
+                cantidad_dias += 1
+            elif(dia1 < diasXMes[str(mes1)]):                                 ## Si el día actual no es el último del mes, se suma uno al dia.
+                dia1 += 1
+                cantidad_dias += 1
+            elif(bisiesto(anho1) and mes1 == 2 and dia1 == 29):                ## Se debe revisar si el año actual es bisiesto, para realizar la suma correspondiente en el mes de febrero.
+                mes1 = 3
+                dia1 = 1
+                cantidad_dias += 1
+            elif(dia1 == diasXMes[str(mes1)] and mes1 < 12):                   ## Si el día es el último del mes y no es Diciembre, se suma uno al mes y se devuelve la cantidad de días a 1.
+                mes1 += 1
+                dia1 = 1
+                cantidad_dias += 1
+            elif(dia1 == diasXMes[str(mes1)] and mes1 == 12):                  ## Si el día es el último del mes y es Diciembre, se devuelve el mes y día a 1 y se aumenta el año en 1.
+                anho1 += 1
+                mes1 = 1
+                dia1 = 1
+                cantidad_dias += 1
+        print("\nHay ", cantidad_dias, " dias entre las dos fechas ingresadas.\n")
+        return cantidad_dias
+    else:
+        print("\n Debe ingresar dos fechas válidas.\n")
+        return
+
 menu()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
