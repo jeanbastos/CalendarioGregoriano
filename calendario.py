@@ -344,9 +344,9 @@ def get_mes(dia,num_mes,anho):
             mes += '  ' + "  "
     result = mes.split('#')
 
-    if (len(result) < 8):
+    while (len(result) < 8):
         result.append('                            |')
-
+    
     for j in range (0,8):
         
         for x in range (0,28):
@@ -355,7 +355,7 @@ def get_mes(dia,num_mes,anho):
 
         if '|' not in result[j]:
             result[j] += '|'
-       
+
     return result
 
 
