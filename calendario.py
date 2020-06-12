@@ -382,29 +382,39 @@ def fecha_futura(fecha, dias):
                 dia = 1
             dias -= 1
         print("\n La fecha final es ", anho, "/", mes, "/", dia, ".\n")
-        return(anho,mes,dia)
+        fecha = (anho, mes, dia)
+        return fecha
     else:
         print("\n Debe ingresar una fecha válida.\n")
         return
+
+## La siguiente es una funcion complementaria para saber cual, de dos fechas válidas ingresadas, es la "menor".
+
+def fecha_menor(f1,f2):
+    if(f1[0] < f2[0]):
+        return(f1,f2)
+    elif(f1[0] > f2[0]):
+        return(f2,f1)
+    elif(f1[1] < f2[1]):
+        return(f1,f2)
+    elif(f1[1] > f2[1]):
+        return(f2,f1)
+    elif(f1[2] < f2[2]):
+        return(f1,f2)
+    else:
+        return(f2,f1)
 
 ## Esta funcion va a determinar la cantidad de días naturales entre las dos fechas ingresadas.
 def dias_entre(f1, f2):
     if(fecha_es_valida(f1) and fecha_es_valida(f2)):                                ## Primero se verifica que ambas fechas sean válidas.
         cantidad_dias = 0
-        if(f1[0] < f2[0]):                                                          ## Luego se revisa cual de las dos fechas ingresadas es menor.
-            anho1 = f1[0]
-            mes1 = f1[1]
-            dia1 = f1[2]
-            anho2 = f2[0]
-            mes2 = f2[1]
-            dia2 = f2[2]
-        else:
-            anho1 = f2[0]
-            mes1 = f2[1]
-            dia1 = f2[2]
-            anho2 = f1[0]
-            mes2 = f1[1]
-            dia2 = f1[2]
+        fechas_ordenadas = fecha_menor(f1,f2)                                       ## Luego se utiliza una funcion complementaria para saber cual fecha es la menor y comenzar desde ahí el conteo.
+        anho1 = fechas_ordenadas[0][0]
+        anho2 = fechas_ordenadas[1][0]
+        mes1 = fechas_ordenadas[0][1]
+        mes2 = fechas_ordenadas[1][1]
+        dia1 = fechas_ordenadas[0][2]
+        dia2 = fechas_ordenadas[1][2]
         while(anho1 <= anho2):                                                      ## Mientras el año1 sea menor o igual al año2, se seguirá la suma de días.
             if(anho1 == anho2 and mes1 == mes2 and dia1 == dia2):                   ## Una vez ambos años, meses y días sean iguales, se cierra el while.
                 break
