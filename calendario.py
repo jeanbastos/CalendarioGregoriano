@@ -5,6 +5,8 @@ diasXMes =  {'1' : 31, '2' : 28, '3'  : 31 , '4'  : 30 , '5' : 31 , '6' : 30 , '
 #Este diccionario tiene el nombre asociado a un numero de mes
 nombre_Mes = {1:'Enero', 2:'Febrero', 3:'Marzo', 4:'Abril', 5:'Mayo',6:'Junio',7:'Julio',8:'Agosto',9:'Setiembre',10:'Octubre',11:'Noviembre',12:'Diciembre'}
 
+nombre_Dia = {0:'Domingo', 1:'Lunes', 2:'Martes', 3:'Miércoles', 4:'Jueves', 5:'Viernes', 6:'Sábado'}
+
 
 #Esta función permite verificar que un valor ingresado corresponde a un integer.
 def esEntero(s):
@@ -32,6 +34,7 @@ def menu():
     print("4: dias_transcurridos")
     print("5: fecha_hoy")
     print("6: edad_hoy")
+    print("7: dia_semana")
     print("8: imprimir_3x4")
     print("9: fecha_futura")
     print("10: dias_entre")
@@ -85,6 +88,15 @@ def menu():
     elif(opcion == '6'):
         opcion = input('Ingrese la fecha en formato (yyyy,mm,dd): ')
         edad_hoy(parseDate(opcion))
+        menu()
+
+    elif(opcion == '7'):
+        opcion = input('Ingrese la fecha en formato (yyyy,mm,dd): ')
+        result = dia_semana(parseDate(opcion))
+        if(result == False):
+            print("\n La fecha ingresada es inválida\n")
+        else:  
+            print("\n",nombre_Dia[dia_semana(parseDate(opcion))],"\n")
         menu()
 
     elif(opcion == '8'):
@@ -256,11 +268,26 @@ def edad_hoy(fecha):
     else:
         print("\n Debe ingresar una fecha válida para el calendario gregoriano.\n")
 
-
+#Retorna el numero de día de la semana, tomando 0 como domingo
+#El algoritmo utilizado es el siguiente:
+#d=((A-1)%7+((A-1)/4-(3*((A-1)/100+1)/4))%7+DM%7+D%7)%7
+#donde A = año, DM = días transcurridos antes del primer día del mes
+#D = día
 def dia_semana(fecha):
-
-    return 3
-
+    if(fecha_es_valida(fecha)):
+        a = fecha[0]
+        m = fecha[1]
+        d = fecha[2]
+        #Módulos acumulados por mes para años regulares y años bisiestos
+        constanteMes = [0, 3, 3, 6, 1, 4, 6, 2, 5, 0, 3, 5]
+        constanteMesBisiesto = [0, 3, 4, 0, 2, 5, 0, 3, 6, 1, 4, 6]
+        if(bisiesto(a)): #
+            m = constanteMesBisiesto[m-1]
+        else:
+            m = constanteMes[m-1]
+        return int(((a-1)%7 + round(((a-1)/4-(3*((a-1)/100+1)/4))%7,0) + m + d%7)%7)
+    else:
+        return(False)
 
 #Imprime el anno completo
 def imprimir_3x4(anho):
