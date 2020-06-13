@@ -286,22 +286,9 @@ def dia_semana(fecha):
             dm = constanteMesBisiesto[m-1]
         else:
             dm = constanteMes[m-1]
-        #print(True,'\n')
         return ((a-1)*365+(a-1)//4-(3*((a-1)//100+1)//4)+dm+d)%7
-        #return int(((a-1)%7 + round(((a-1)/4-(3*((a-1)/100+1)/4))%7,0) + m + d%7)%7)
     else:
         return(False)
-
-#def dia_semana(fecha):
-#    a = fecha[0]
-#    m = fecha[1]
-#    d = fecha[2]
-
-    siglo=[5,3,1,0,-2,-4]
-    
-
-
-
 
 
 #Imprime el anno completo
